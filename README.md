@@ -1,4 +1,17 @@
-# VeriFive GitHub–Colab 연결 서버
+# VeriFive
+
+생성형 AI 챗봇 프로젝트의 뉴스 수집·RAG 응답 노트북과 GitHub Codespaces–Colab 연결 서버를 정리한 저장소입니다.
+
+## 최신 노트북과 FlatIP 복구
+
+- `notebooks/VeriFive_Final.ipynb`: 2026-11-24 기준 최신 Colab 노트북입니다.
+- `CELL 23`의 인덱스 생성부는 `faiss.IndexFlatIP(dimension)`을 사용합니다. 기존 SQ8은 최초 학습 데이터가 부족할 때 양자화 범위가 붕괴해 서로 다른 벡터가 같은 값으로 저장되는 문제가 있었습니다.
+- 1024차원 float32 벡터 1만 개는 약 40 MB이므로 현재 규모에서는 양자화 대신 정확한 내적 검색과 코드 단순성을 선택했습니다.
+- 검증 결과와 수정 요약은 `docs/FlatIP_검증_결과_261124.md`, `docs/벡터DB_수정내용_261124.md`에 있습니다.
+- API 키와 토큰은 Colab `userdata`로 관리하며 저장소에 저장하지 않습니다. 뉴스 원문과 벡터 DB 파일도 포함하지 않습니다.
+- 코드와 저장 벡터에 대한 검증은 완료했지만, 운영 UI에서 실제 질문을 제출하는 종단 간 테스트는 별도로 확인해야 합니다.
+
+## GitHub–Colab 연결 서버
 
 GitHub Codespaces에서 실행되는 가벼운 reverse proxy입니다. 이용자는 Codespaces의 포트 주소로 접속하고, 실제 뉴스 수집·RAG·LLM 생성은 기존 Colab 서버에서 그대로 실행합니다.
 
